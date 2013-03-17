@@ -14,11 +14,14 @@
 			margin: 0;
 		}
 		body {
-			background: #000 url(media/bg.png) top center no-repeat;
-			background-size:1 1;
+
 			color: #fff;
 			overflow: hidden;
 			-ms-touch-action: none;
+		}
+		#c2canvasdiv{
+			background: #000 url(media/bg.png) top center no-repeat;
+			background-size:1 1;			
 		}
 		canvas {
 			-ms-touch-action: none;
@@ -57,4 +60,39 @@
  
  	<div style="display: none;" id="gpt_hidden_data"></div>
  </body>
+ 	<script src="code/jquery.min.js"></script>
+    <!-- The runtime script.  You can rename it, but don't forget to rename the reference here as well.
+    This file will have been minified and obfuscated if you enabled "Minify script" during export. -->
+	<script src="code/data.js"></script>
+	<script src="code/new.js"></script>
+
+    <script>
+    //document.addEventListener('deviceready', function(){
+ 		// Size the canvas to fill the browser viewport.
+		jQuery(window).resize(function() {
+			cr_sizeCanvas(jQuery(window).width(), jQuery(window).height());
+		});
+		
+		// Start the Construct 2 project running on window load.
+		jQuery(document).ready(function ()
+		{	
+			// Create new runtime using the c2canvas
+			cr_createRuntime("c2canvas");
+			cr_sizeCanvas(jQuery(window).width(), jQuery(window).height());
+		});
+		
+		// Pause and resume on page becoming visible/invisible
+		function onVisibilityChanged() {
+			if (document.hidden || document.mozHidden || document.webkitHidden || document.msHidden)
+				cr_setSuspended(true);
+			else
+				cr_setSuspended(false);
+		};
+		
+		document.addEventListener("visibilitychange", onVisibilityChanged, false);
+		document.addEventListener("mozvisibilitychange", onVisibilityChanged, false);
+		document.addEventListener("webkitvisibilitychange", onVisibilityChanged, false);
+		document.addEventListener("msvisibilitychange", onVisibilityChanged, false);   	
+    //}, false);	
+    </script>
  </html>
