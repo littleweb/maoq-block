@@ -14,14 +14,10 @@
 			margin: 0;
 		}
 		body {
-			background:#fff;
+			background: #fff url(media/bg.png) top center no-repeat;
 			color: #fff;
 			overflow: hidden;
 			-ms-touch-action: none;
-		}
-		#c2canvasdiv{
-			background: #000 url(media/bg.png) top center no-repeat;
-			background-size:1 1;			
 		}
 		canvas {
 			-ms-touch-action: none;
@@ -35,7 +31,7 @@
 -->
 	<div id="fb-root"></div>
 	<!-- The canvas must be inside a div called c2canvasdiv -->
-	<div id="c2canvasdiv" style="width: 421px; height: 632px; margin-left: 429px; margin-top: 0px;color:#fff;">
+	<div id="c2canvasdiv" style="width: 421px; height: 632px; margin-left: 429px; margin-top: 0px;">
 		<!-- The canvas the project will render to.  If you change its ID, don't forget to change the
 		ID the runtime looks for in the jQuery events above (ready() and cr_sizeCanvas()). -->
 		<canvas id="c2canvas" width="421" height="632" style="cursor: pointer;">
@@ -56,11 +52,7 @@
 	
 	<!-- Construct 2 exported games require jQuery.  To save bandwidth, by default
 	this is set to grab it off the Google content delivery network (CDN). Fall back to local if not available. -->
-
- 
- 	<div style="display: none;" id="gpt_hidden_data"></div>
- </body>
- 	<script src="code/jquery.min.js"></script>
+	<script src="code/jquery.min.js"></script>
     <!-- The runtime script.  You can rename it, but don't forget to rename the reference here as well.
     This file will have been minified and obfuscated if you enabled "Minify script" during export. -->
 	<script src="code/data.js"></script>
@@ -69,34 +61,34 @@
     <script>
     //document.addEventListener('deviceready', function(){
  		// Size the canvas to fill the browser viewport.
-
+		jQuery(window).resize(function() {
+			cr_sizeCanvas(jQuery(window).width(), jQuery(window).height());
+		});
 		
 		// Start the Construct 2 project running on window load.
 		jQuery(document).ready(function ()
 		{	
-			$("head").load("code/data.js", function(){
-				$("head").load("code/new.js", function(){
-					jQuery(window).resize(function() {
-						cr_sizeCanvas(jQuery(window).width(), jQuery(window).height());
-					});
-					cr_createRuntime("c2canvas");
-					cr_sizeCanvas(jQuery(window).width(), jQuery(window).height());		
-					// Pause and resume on page becoming visible/invisible
-					function onVisibilityChanged() {
-						if (document.hidden || document.mozHidden || document.webkitHidden || document.msHidden)
-							cr_setSuspended(true);
-						else
-							cr_setSuspended(false);
-					};
-					
-					document.addEventListener("visibilitychange", onVisibilityChanged, false);
-					document.addEventListener("mozvisibilitychange", onVisibilityChanged, false);
-					document.addEventListener("webkitvisibilitychange", onVisibilityChanged, false);
-					document.addEventListener("msvisibilitychange", onVisibilityChanged, false);  					
-				});			
-			});
+			$.support.cors = true;
 			// Create new runtime using the c2canvas
-		}); 	
+			cr_createRuntime("c2canvas");
+			cr_sizeCanvas(jQuery(window).width(), jQuery(window).height());
+		});
+		
+		// Pause and resume on page becoming visible/invisible
+		function onVisibilityChanged() {
+			if (document.hidden || document.mozHidden || document.webkitHidden || document.msHidden)
+				cr_setSuspended(true);
+			else
+				cr_setSuspended(false);
+		};
+		
+		document.addEventListener("visibilitychange", onVisibilityChanged, false);
+		document.addEventListener("mozvisibilitychange", onVisibilityChanged, false);
+		document.addEventListener("webkitvisibilitychange", onVisibilityChanged, false);
+		document.addEventListener("msvisibilitychange", onVisibilityChanged, false);   	
     //}, false);	
     </script>
+ 
+ 	<div style="display: none;" id="gpt_hidden_data"></div>
+ </body>
  </html>
